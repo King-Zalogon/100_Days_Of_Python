@@ -25,29 +25,28 @@ MENU = {
 }
 
 resources = {
-    "water": [300, 'ml'],
+    "water": [500, 'ml'],
     "milk": [200, 'ml'],
     "coffee": [100, 'gr'],
     "funds": [100, "$"],
 }
 
+COIN_VALUES = {'quarters': 0.25, 'dimes': 0.10, 'nickles': 0.05, 'pennies': 0.01}
+
 # For Emojis: During text entry, type Windows logo key  + . (period). The emoji keyboard will appear. 😀 ☕
 
 # TODO: Keep track of the imported modules and __main__ variables
 
-machine_on = True
+from IPython.display import clear_output
+import time
+from art_coffee import logo
 
-quarters = 0.25
-dimes = 0.10
-nickles = 0.05
-pennies = 0.01
+# for i in range(3, 0, -1):
+#     clear_output(wait=True)
+#     print(i)
+#     time.sleep(1)
 
-coins_value = {'quarters': 0.25, 'dimes': 0.10, 'nickles': 0.05, 'pennies': 0.01} # I should change to COINS_VALUE
 
-funds = 0
-payment = 0
-
-paid = False
 
 # TODO: function for money input, checks against selection's price. Returns money if < price, or chance if > price
 
@@ -55,13 +54,12 @@ paid = False
 def money(coins_inserted):
     cash = 0
     for coin in coins_inserted:
-        cash += coins_value[coin] * coins_inserted[coin]
+        cash += COIN_VALUES[coin] * coins_inserted[coin]
 
     return cash
 
 
 def charge(choice, payment):
-
     price = MENU[choice]["cost"]
 
     coins_inserted = {'quarters': 0, 'dimes': 0, 'nickles': 0, 'pennies': 0}
@@ -72,22 +70,30 @@ def charge(choice, payment):
     for coin in coins_inserted:
         try:
             coins_inserted[coin] = int(input(f'How many {coin} are you entering? '))
+
+        except:
+            print("That's not a valid amount. It will be taken as equal to '0'. We are sorry")
+            coins_inserted[coin] = 0
+
+        else:
             payment = money(coins_inserted)
 
-        except TypeError:
-            coins_inserted[coin] = int(input(f"That's nota a valid option. Please enter your {coin} as numbers: "))
+    print(f"You've enter a total amount of ${payment}")
 
     if payment < price:
         print("Sorry that's not enough money. Money refunded.")
         cash = 0
+        paid = False
     elif payment == price:
         print('Thanks. Your order will be ready soon.')
+        resources['funds'][0] += price
+        paid = True
     elif payment > price:
-        print(f'Thanks, here is your change: {payment - price}. Your order will be ready soon')
+        print(f'Thanks, here is your change: {round((payment - price), 2)}. Your order will be ready soon')
+        resources['funds'][0] += price
+        paid = True
     else:
         print('Ooops, something went wrong with your payment')
-
-    paid = True
 
     return paid
 
@@ -103,19 +109,25 @@ def user_choice():
 
     while not checked:
         try:
-            MENU[choice]
+            choices.index(choice)
 
         except KeyError:
             choice = input("That's not a valid option. Type 'espresso', 'latte' or 'cappuccino': ").lower()
 
+        except:
+            choice = input("That's not a valid option. Type 'espresso', 'latte' or 'cappuccino': ").lower()
+
         else:
             if choice == 'off':
-                turn_off((choice))
+                break
+
             elif choice == 'report':
-                report(choice, resources)
+                break
             else:
                 print(f'You want a {choice}, great choice!')
-                return choice
+                break
+
+    return choice
 
 
 # TODO: Define an "Off" function to break the loop when entered as user's choice
@@ -124,7 +136,7 @@ def user_choice():
 def turn_off(choice):
     if choice == 'off':
         print('Ok, night night!')
-        return False
+        return True
 
 
 # TODO: Define a "Report" function
@@ -156,3 +168,68 @@ def enough_resources(choice, resources):
 
 
 # TODO define a funct that adjust current resources after payment
+
+def adjust_resources(choice, resources):
+
+    for resource in MENU[choice]["ingredients"]:
+        needed = MENU[choice]["ingredients"][resource]
+        resources[resource][0] -= needed
+        if resources[resource][0] == 0:
+            print(f"We've just run out of {resource}.")
+            print(f'But we had enough to make your {choice}.')
+
+
+# TODO define the mother function that brings the other together
+
+def coffee_machine():
+    '''
+    Main function for the coffee machine project.
+    :return:
+    '''
+
+    machine_on = True
+
+    print('Welcome to the Coffee Machine!')
+    print(logo)
+
+    while machine_on:
+        choice = user_choice()
+
+        if turn_off(choice):
+            break
+
+        report(choice, resources)
+
+        if choice != 'report':
+            paid = False
+            payment = 0
+
+            while not paid:
+                if enough_resources(choice, resources):
+                    paid = charge(choice, payment)
+                    if paid:
+                        for i in range(4):
+                            loader = '.'
+                            clear_output(wait=True)
+                            print(loader*i)
+                            time.sleep(1)
+
+                        print('Payment successful. Please hold on, your order will be ready in: ')
+                        adjust_resources(choice, resources)
+                        for i in range(3, 0, -1):
+                            clear_output(wait=True)
+                            print(i)
+                            time.sleep(1)
+                        print(f'Here is your {choice}: ☕\nEnjoy!')
+                        break
+                    else:
+                        print('Payment was not processed. Please choose again')
+                        break
+                else:
+                    print('If not enough resources, please contact the admin')
+                    break
+
+
+
+coffee_machine()
+
