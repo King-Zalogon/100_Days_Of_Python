@@ -182,10 +182,10 @@ def adjust_resources(choice, resources):
 # TODO define the mother function that brings the other together
 
 def coffee_machine():
-    '''
+    """
     Main function for the coffee machine project.
     :return:
-    '''
+    """
 
     machine_on = True
 
@@ -230,6 +230,4 @@ def coffee_machine():
                     break
 
 
-
 coffee_machine()
-
