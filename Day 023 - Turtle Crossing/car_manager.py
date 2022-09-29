@@ -36,6 +36,5 @@ class CarManager(Turtle):
         for car in self.traffic:
             car.bk(STARTING_MOVE_DISTANCE)
 
-
     def speed_up(self):
         self.speed_factor *= 0.8

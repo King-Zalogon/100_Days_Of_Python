@@ -17,10 +17,12 @@ class Player(Turtle):
         self.turtle.pu()
         self.turtle.lt(90)
 
-
     def move(self):
         self.turtle.fd(MOVE_DISTANCE)
 
     def reset_position(self):
         self.turtle.goto(STARTING_POSITION)
 
+    def road_kill(self):
+        self.turtle.shapesize(3, 1)
+        self.turtle.color('red')
