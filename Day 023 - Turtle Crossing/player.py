@@ -16,7 +16,11 @@ class Player(Turtle):
         self.turtle.color('green')
         self.turtle.pu()
         self.turtle.lt(90)
-        self.turtle.goto(STARTING_POSITION)
+
 
     def move(self):
         self.turtle.fd(MOVE_DISTANCE)
+
+    def reset_position(self):
+        self.turtle.goto(STARTING_POSITION)
+
