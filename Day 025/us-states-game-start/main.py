@@ -19,11 +19,14 @@ amount_guessed = 0
 game_on = True
 states_guessed = []
 
-answer_state = screen.textinput(title="Guess the State", prompt="What's another state's name?").capitalize()
+answer_state = screen.textinput(title="Guess the State", prompt="What's another state's name?").title()
 
 while game_on:
 
     if answer_state == 'Quit':
+        missing_states = [state for state in list_of_states if state not in states_guessed]
+        new_data = pandas.DataFrame(missing_states)
+        new_data.to_csv('states_to_learn.csv')
         game_on = False
 
     elif answer_state in list_of_states and answer_state not in states_guessed:
@@ -33,12 +36,14 @@ while game_on:
         states_guessed.append(data['state'][i])
         amount_guessed += 1
         answer_state = screen.textinput(title=f"{amount_guessed}/50 - Guess the State",
-                                        prompt="What's another state's name?").capitalize()
+                                        prompt="What's another state's name?").title()
 
     else:
         answer_state = screen.textinput(title=f"{amount_guessed}/50 - Guess the State",
                                         prompt="What's another state's name?").capitalize()
 
-#print(states_guessed)
 
-turtle.mainloop()
+
+print(states_guessed)
+
+
