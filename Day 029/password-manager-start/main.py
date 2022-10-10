@@ -128,7 +128,7 @@ user_entry.insert(0, "some_mail_address@gmail.com")
 pass_entry = Entry(width=25)
 pass_entry.grid(column=1, row=3)
 
-search_button = Button(text='Search', width=14 , command=pass_search)
+search_button = Button(text='Search', width=14, command=pass_search)
 search_button.grid(column=2, row=1, pady=5)
 
 generate_button = Button(text='Generate Password', command=pass_gen)
