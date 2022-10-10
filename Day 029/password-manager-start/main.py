@@ -10,7 +10,14 @@ def pass_gen():
 
 
 def pass_save():
-    pass
+    site = site_entry.get()
+    user = user_entry.get()
+    password = pass_entry.get()
+    with open('data.txt', mode='a') as file:
+        file.write(f"\n{site} | {user} | {password}")
+    site_entry.insert(0, "")
+    user_entry.insert(0, "some_mail_address@gmail.com")
+    pass_entry.insert(0, " ")
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -34,12 +41,16 @@ pass_label.config(padx=5, pady=5)
 site_entry = Entry(width=35)
 site_entry.grid(column=1, row=1, columnspan=2)
 site_entry.focus()
+
+
 user_entry = Entry(width=35)
 user_entry.grid(column=1, row=2, columnspan=2)
 user_entry.insert(0, "some_mail_address@gmail.com")
 
+
 pass_entry = Entry(width=17)
 pass_entry.grid(column=1, row=3)
+
 
 generate_button = Button(text='Generate Password', command=pass_gen)
 generate_button.grid(column=2, row=3)
@@ -51,6 +62,7 @@ canvas = Canvas(width=200, height=200)
 logo_img = PhotoImage(file='logo.png')
 canvas.create_image(100, 100, image=logo_img)
 canvas.grid(column=1, row=0)
+
 
 # End of code
 window.mainloop()
