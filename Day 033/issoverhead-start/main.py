@@ -66,11 +66,11 @@ current_time = now.hour
 
 # If the ISS is close to my current position
 position = relative_position(MY_POSS, iss_position)
-print(position)
+
 
 # and it is currently dark
 night = is_night(sunrise, sunset, current_time)
-print(night)
+
 
 # Then, send email to tell me to look up.
 good_to_go = conditions_check(position, night)
