@@ -8,7 +8,7 @@ MY_LAT = -34.603683
 MY_LNG = -58.381557
 MY_POSS = (MY_LNG, MY_LAT)
 MY_EMAIL = "zalogonking@gmail.com"
-PASSWORD = 'udorlnhzwqvykhxv'
+PASSWORD = 'not a password'
 
 
 def is_night(sunrise_hour, sunset_hour, current_hour):
