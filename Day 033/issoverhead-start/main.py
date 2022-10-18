@@ -4,11 +4,11 @@ import requests
 import datetime as dt
 import smtplib
 
-MY_LAT = -34.603683
-MY_LNG = -58.381557
+MY_LAT = -34.6075682
+MY_LNG = -58.4370894
 MY_POSS = (MY_LNG, MY_LAT)
 MY_EMAIL = "zalogonking@gmail.com"
-PASSWORD = 'udorlnhzwqvykhxv'
+PASSWORD = ''
 
 
 def is_night(sunrise_hour, sunset_hour, current_hour):
@@ -58,8 +58,8 @@ night_check = requests.get(url="https://api.sunrise-sunset.org/json", params=par
 night_check.raise_for_status()  # It asks requests to raise the exception for me if an error occurs
 night_data = night_check.json()
 
-sunrise = int(night_data["results"]["sunrise"].split('T')[1].split(':')[0])
-sunset = int(night_data["results"]["sunset"].split('T')[1].split(':')[0])
+sunrise = int(night_data["results"]["sunrise"].split('T')[1].split(':')[0])-3
+sunset = int(night_data["results"]["sunset"].split('T')[1].split(':')[0])-3
 
 now = dt.datetime.now()
 current_time = now.hour
