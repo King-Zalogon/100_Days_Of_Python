@@ -1,7 +1,7 @@
 import requests
 import datetime as dt
 
-STOCK_KEY = "L2MAIFZDE50V79MU"
+STOCK_KEY = "MY STOCK KEY"
 STOCK_DAILY_URL = 'https://www.alphavantage.co/query'
 
 

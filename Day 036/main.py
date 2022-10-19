@@ -1,9 +1,8 @@
 # Stock Prices Monitor App
-import requests as rq
-import datetime as dt
 import pandas as pd
 import fluctuation_check as fc
 from news_checker import news_checker
+import sms_handler as sms
 
 csv = pd.read_csv("stock_symbols.csv", sep='|')
 symbols = csv.to_dict(orient="records")
@@ -36,7 +35,6 @@ for n in range(5):
 
 top_news = news_checker(top_company)
 
-print(top_news)
-
 # TODO 3) Send us SMS from Twilio with the facts to decide.
-
+sms_message = f"{top_company} fluctuation was {fluctuation}.\n This where the news:\n{top_news}"
+sms.sms_sender(sms_message)
