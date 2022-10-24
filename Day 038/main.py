@@ -20,7 +20,7 @@ SHEETY_USERNAME = ""
 SHEETY_PROJECT_NAME = "myWorkouts"
 SHEETY_SHEET_NAME = "workouts"
 SHEETY_ENDPOINT = f"https://api.sheety.co/{SHEETY_USERNAME}/{SHEETY_PROJECT_NAME}/{SHEETY_SHEET_NAME}"
-SHEETY_TOKEN = "Bearer 0c945xd54lir875sio740"
+SHEETY_TOKEN = ""
 
 date = datetime.now().strftime("%d/%m/%Y")
 time = datetime.now().strftime("%I:%M:%S %p")
