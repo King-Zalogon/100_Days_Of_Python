@@ -1,29 +1,28 @@
-class DataManager:
-    #This class is responsible for talking to the Google Sheet.
-    pass
-
 import requests
-from datetime import datetime
 
-SHEETY_USERNAME = ""
-SHEETY_PROJECT_NAME = "myWorkouts"
-SHEETY_SHEET_NAME = "workouts"
-SHEETY_ENDPOINT = f"https://api.sheety.co/{SHEETY_USERNAME}/{SHEETY_PROJECT_NAME}/{SHEETY_SHEET_NAME}"
-SHEETY_TOKEN = "Bearer 0c945xd54lir875sio740"
 
-date = datetime.now().strftime("%d/%m/%Y")
-time = datetime.now().strftime("%I:%M:%S %p")
+class DataManager:
+    # This class is responsible for talking to the Google Sheet.
+    def __init__(self):
+        self.username = sheety_username
+        self.project = sheety_project
+        self.sheet = sheety_sheet
+        self.endpoint = f"https://api.sheety.co/{self.username}/{self.project}/{self.sheet}"
+        self.token = sheety_token
+        self.header = {"Authorization": self.token}
+        self.parameters = sheety_parameters
+        self.get_response = None
+        self.post_response = None
 
-sheety_header = {
-    "Authorization": SHEETY_TOKEN
-}
+        self.get_result = self.get_data()
+        self.post_result = self.post_data()
 
-for param in today_workout:
-    sheety_parameters = param
-    sheety_post = requests.post(SHEETY_ENDPOINT, headers=sheety_header, json=sheety_parameters)
-    sheety_post.raise_for_status()
+    def get_data(self):
+        self.get_response = requests.get(self.endpoint, headers=self.header)
+        self.get_response.raise_for_status()
+        return self.get_response.json()
 
-# sheety_response = requests.get(SHEETY_ENDPOINT, headers=sheety_header)
-# sheety_result_get = sheety_response.json()
-
-print(sheety_result_post)
+    def post_data(self):
+        self.post_response = requests.post(self.endpoint, headers=self.header, json=self.parameters)
+        self.post_response.raise_for_status()
+        return self.post_response.json()
