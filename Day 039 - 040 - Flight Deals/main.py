@@ -11,11 +11,8 @@ time = datetime.now().strftime("%I:%M:%S %p")
 sheet_data = DataManager(username=username, project=project, sheet=sheet, token=token)
 
 for i in range(0, len(sheet_data.prices)):
-    code = sheet_data.prices[i]['iata']
     city = sheet_data.prices[i]['city']
-    print(city)
-    flight = FlightSearch(iataCode=code, city=city, apikey=apikey)
-    print(flight.code_search())
+    flight = FlightSearch(city=city, apikey=apikey)
     parameters = {"price": {
         "iata": flight.code_search()
     }}
