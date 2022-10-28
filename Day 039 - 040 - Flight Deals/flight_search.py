@@ -1,5 +1,16 @@
 import requests
 from env import username, project, sheet, token, apikey
+import datetime
+from flight_data import FlightData
+from pprint import pprint
+
+today = datetime.datetime.now()  # .strftime("%d/%m/%Y")
+time = datetime.datetime.now().strftime("%I:%M:%S %p")
+
+tomorrow = (today + datetime.timedelta(days=1)).strftime("%d/%m/%Y")
+min_return_date = (today + datetime.timedelta(days=7)).strftime("%d/%m/%Y")
+max_depart_date = (today + datetime.timedelta(days=23)).strftime("%d/%m/%Y")
+max_return_date = (today + datetime.timedelta(days=30)).strftime("%d/%m/%Y")
 
 
 class FlightSearch:
@@ -17,10 +28,12 @@ class FlightSearch:
         self.flight_search_endpoint_add_hoc = "v2/search"
         self.fly_from = "MIA"
         self.fly_to = self.code_search()
-        self.dateFrom = "01/11/2022"  # dd/mm/yyyy
-        self.dateTo = "30/11/2022"  # earch flights upto this date (dd/mm/yyyy)
-        self.return_from = "1/12/2022"  # min return date of the whole trip (dd/mm/yyyy)
-        self.return_to = "31/12/2022"
+        self.dateFrom = tomorrow  # dd/mm/yyyy
+        self.dateTo = max_depart_date  # earch flights upto this date (dd/mm/yyyy)
+        self.return_from = min_return_date  # min return date of the whole trip (dd/mm/yyyy)
+        self.return_to = max_return_date
+        self.nights_in_dst_from = 6
+        self.nights_in_dst_to = 27
         self.flight_type = "round"
         self.one_for_city = 1
         self.adults = 1
@@ -66,4 +79,12 @@ class FlightSearch:
 
 
 flight = FlightSearch(apikey=apikey, city="New York")
-print(flight.flight_search())
+search = flight.flight_search()
+
+x = search["data"][0]["price"]
+
+data = FlightData(search)
+print(data.price)
+
+
+
