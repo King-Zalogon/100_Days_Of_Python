@@ -1,12 +1,8 @@
 import requests
-from env import username, project, sheet, token, apikey
 import datetime
-from flight_data import FlightData
-from pprint import pprint
 
-today = datetime.datetime.now()  # .strftime("%d/%m/%Y")
+today = datetime.datetime.now()
 time = datetime.datetime.now().strftime("%I:%M:%S %p")
-
 tomorrow = (today + datetime.timedelta(days=1)).strftime("%d/%m/%Y")
 min_return_date = (today + datetime.timedelta(days=7)).strftime("%d/%m/%Y")
 max_depart_date = (today + datetime.timedelta(days=23)).strftime("%d/%m/%Y")
@@ -26,7 +22,7 @@ class FlightSearch:
         self.price = None
         self.loc_query_endpoint_add_hoc = "locations/query"
         self.flight_search_endpoint_add_hoc = "v2/search"
-        self.fly_from = "MIA"
+        self.fly_from = "BUE"
         self.fly_to = self.code_search()
         self.dateFrom = tomorrow  # dd/mm/yyyy
         self.dateTo = max_depart_date  # earch flights upto this date (dd/mm/yyyy)
@@ -42,8 +38,8 @@ class FlightSearch:
         self.partner_market = "us"
         self.curr = "USD"
         self.price_from = "50"
-        self.price_to = "10000"
-        self.max_stopovers = 1
+        self.price_to = "100000"
+        self.max_stopovers = 3
         self.flight_parameters = {"fly_from": self.fly_from,
                                   "fly_to": self.fly_to,
                                   "dateFrom": self.dateFrom,
@@ -67,7 +63,10 @@ class FlightSearch:
                                      headers=self.header, params=self.code_parameters)
         self.response.raise_for_status()
         code_result = self.response.json()
-        return code_result['locations'][0]['code']
+        if code_result is not None:
+            return code_result['locations'][0]['code']
+        else:
+            print("No data was found with those parameters.")
 
     def flight_search(self):
         self.iata_code = self.code_search()
@@ -76,15 +75,3 @@ class FlightSearch:
         self.response.raise_for_status()
         flight_result = self.response.json()
         return flight_result
-
-
-flight = FlightSearch(apikey=apikey, city="New York")
-search = flight.flight_search()
-
-x = search["data"][0]["price"]
-
-data = FlightData(search)
-print(data.price)
-
-
-
