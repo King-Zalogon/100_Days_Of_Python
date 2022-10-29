@@ -1,44 +1,32 @@
-import datetime
+from datetime import datetime, timedelta
 from data_manager import DataManager
-from env import username, project, sheet, token, apikey
 from flight_search import FlightSearch
-from flight_data import FlightData
+from notification_manager import NotificationManager
 
-# This file will need to use the DataManager,FlightSearch, FlightData, NotificationManager classes to achieve the
-# program requirements.
+data_manager = DataManager()
+sheet_data = data_manager.get_destination_data()
+flight_search = FlightSearch()
+notification_manager = NotificationManager()
 
-date = datetime.datetime.now().strftime("%d/%m/%Y")
-today = datetime.datetime.now()
-time = datetime.datetime.now().strftime("%I:%M:%S %p")
-tomorrow = (today + datetime.timedelta(days=1)).strftime("%d/%m/%Y")
-min_return_date = (today + datetime.timedelta(days=7)).strftime("%d/%m/%Y")
-max_depart_date = (today + datetime.timedelta(days=23)).strftime("%d/%m/%Y")
-max_return_date = (today + datetime.timedelta(days=30)).strftime("%d/%m/%Y")
+ORIGIN_CITY_IATA = "LON"
 
-sheet_data = DataManager(username=username, project=project, sheet=sheet, token=token)
+if sheet_data[0]["iataCode"] == "":
+    for row in sheet_data:
+        row["iataCode"] = flight_search.get_destination_code(row["city"])
+    data_manager.destination_data = sheet_data
+    data_manager.update_destination_codes()
 
-# for i in range(0, len(sheet_data.prices)):
-#     city = sheet_data.prices[i]['city']
-#     flight = FlightSearch(city=city, apikey=apikey)
-#     search = flight.flight_search()
-#     if len(search["data"]) != 0:
-#         price = search["data"][0]["price"]
-#         print(f"{city}: ${price}")
-#         parameters = {"price": {
-#             "iata": flight.code_search(),
-#             "lowest": price
-#         }}
-#         sheet_data.put_data(object_id=sheet_data.prices[i]['id'], parameters=parameters)
-#     else:
-#         print(f"No option was found for {city}")
+tomorrow = datetime.now() + timedelta(days=1)
+six_month_from_today = datetime.now() + timedelta(days=(6 * 30))
 
-print(sheet_data.prices)
-
-for trip in sheet_data.prices:
-    if trip['lowest'] is str:
-        if trip['lowest'] <= trip['target']:
-            print(f"Low price found! Trip for {trip['city']} only u$d{trip['lowest']}!")
-        else:
-            print(f"No good prices for {trip['city']}.")
-    else:
-        print(f"No flight found for {trip['city']}")
+for destination in sheet_data:
+    flight = flight_search.check_flights(
+        ORIGIN_CITY_IATA,
+        destination["iataCode"],
+        from_time=tomorrow,
+        to_time=six_month_from_today
+    )
+    if flight.price < destination["lowestPrice"]:
+        notification_manager.send_sms(
+            message=f"Low price alert! Only £{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
+        )
