@@ -25,7 +25,7 @@ class FlightSearch:
         self.fly_from = "BUE"
         self.fly_to = self.code_search()
         self.dateFrom = tomorrow  # dd/mm/yyyy
-        self.dateTo = max_depart_date  # earch flights upto this date (dd/mm/yyyy)
+        self.dateTo = max_depart_date  # search flights up to this date (dd/mm/yyyy)
         self.return_from = min_return_date  # min return date of the whole trip (dd/mm/yyyy)
         self.return_to = max_return_date
         self.nights_in_dst_from = 6

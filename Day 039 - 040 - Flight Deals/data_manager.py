@@ -34,5 +34,3 @@ class DataManager:
         self.endpoint = f"https://api.sheety.co/{self.username}/{self.project}/{self.sheet}/{self.object_id}"
         self.put_response = requests.put(self.endpoint, headers=self.header, json=kwargs.get("parameters"))
         return self.put_response.json()
-
-
