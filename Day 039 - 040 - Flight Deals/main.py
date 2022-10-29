@@ -23,14 +23,14 @@ for i in range(0, len(sheet_data.prices)):
     search = flight.flight_search()
     if len(search["data"]) != 0:
         price = search["data"][0]["price"]
-        print(f"{city}: {price}")
+        print(f"{city}: ${price}")
         parameters = {"price": {
             "iata": flight.code_search(),
             "lowest": price
         }}
         sheet_data.put_data(object_id=sheet_data.prices[i]['id'], parameters=parameters)
     else:
-        pass
+        print(f"No option was found for {city}")
 
 print(sheet_data.prices)
 
