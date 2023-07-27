@@ -40,32 +40,34 @@
 # }
 #
 # weather_f = {key: (int(value * 9/5) + 32) for (key, value) in weather_c.items()}
-#
 # print(weather_f)
 
 # import random
-# import pandas
+import pandas
+
 # names = ['Angus', 'Luis', 'Palo', 'Yosho', 'Ken']
 #
 # students_scores = {student: random.randint(1, 10) for student in names}
 #
 # passed_students = {key: value for (key, value) in students_scores.items() if value >= 6}
 #
-# students_dict = {"student":['Angus', 'Luis', 'Palo', 'Yosho', 'Ken'], "score":[6, 5, 8, 8, 2]}
-#
-# student_data_frame = pandas.DataFrame(students_dict)
-# print(student_data_frame)
+students_dict = {"student": ['Angus', 'Luis', 'Palo', 'Yosho', 'Ken'], "score": [6, 5, 8, 8, 2]}
+
+student_data_frame = pandas.DataFrame(students_dict)
+print(student_data_frame)
 
 # Looping through Data Frames
+# for (foo, bar) in student_data_frame.items():
+#     print(foo)
+#     print(bar)
 
-# for (key, value) in student_data_frame.items():
-#     print(key)
-#     print(value)
+# Looping through rows of a Data Frame
+for (index, row) in student_data_frame.iterrows():
+    result = None
+    # print(row.student, row.score)
+    if row.score > 5:
+        result = 'Passed'
+    else:
+        result = 'Failed'
 
-# for (index, row) in student_data_frame.iterrows():
-#     print(row.student)
-#     print(row.score)
-#     if row.score > 5:
-#         print('Passed')
-#     else:
-#         print('Failed')
+    print(f'Name: {row.student} || Score: {row.score} || Result: {result}')

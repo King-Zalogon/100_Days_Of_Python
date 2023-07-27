@@ -10,12 +10,13 @@ def word_to_nato(word_dict):
     try:
         # letter_list = [letter.upper() for letter in word if letter.isalpha()]
         # word_list = [word_dict[letter] for letter in letter_list]
-        word_list = [word_dict[letter.upper()] for letter in word]
+        word_list = [f'{letter.upper()} as in {word_dict[letter.upper()]}' for letter in word]
     except KeyError:
         print("Sorry, only letters in the alphabet please.")
         word_to_nato(word_dict)
     else:
-        print(word_list)
+        for nato in word_list:
+            print(nato)
 
 
 word_to_nato(nato_dict)
