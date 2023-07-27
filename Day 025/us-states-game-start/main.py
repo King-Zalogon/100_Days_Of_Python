@@ -43,7 +43,6 @@ while game_on:
                                         prompt="What's another state's name?").capitalize()
 
 
-
+print(missing_states)
 print(states_guessed)
-
 

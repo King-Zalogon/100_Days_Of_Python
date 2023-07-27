@@ -11,10 +11,10 @@
 
 # with open('file1.txt') as list1:
 #     list_1 = [int(item[0:-1]) for item in list1.readlines()]
+#     print(list_1)
 #
 # with open('file2.txt') as list2:
 #     list_2 = [int(item[0:-1]) for item in list2.readlines()]
-#
 #
 # result = list(set(list_1).intersection(set(list_2)))
 
@@ -22,12 +22,11 @@
 #     list_1 = list1.readlines()
 # with open('file2.txt') as list2:
 #     list_2 = list2.readlines()
-#
 # result = [int(num) for num in list_1 if num in list_2]
+
 # sentence = "What is the Airspeed Velocity of an Unladen Swallow?"
-#
 # result = { word : len(word) for word in sentence.split(' ')}
-#
+
 # print(result)
 
 # weather_c = {
@@ -40,21 +39,21 @@
 #     "Sunday": 24,
 # }
 #
-# weather_f = {key:(int(value * 9/5) + 32) for (key,value) in weather_c.items()}
+# weather_f = {key: (int(value * 9/5) + 32) for (key, value) in weather_c.items()}
 #
 # print(weather_f)
 
-import random
-import pandas
-names = ['Angus', 'Luis', 'Palo', 'Yosho', 'Ken']
-
-students_scores = {student: random.randint(1, 10) for student in names}
-
-passed_students = {key: value for (key, value) in students_scores.items() if value >= 6}
-
-students_dict = {"student":['Angus', 'Luis', 'Palo', 'Yosho', 'Ken'], "score":[6, 5, 8, 8, 2]}
-
-student_data_frame = pandas.DataFrame(students_dict)
+# import random
+# import pandas
+# names = ['Angus', 'Luis', 'Palo', 'Yosho', 'Ken']
+#
+# students_scores = {student: random.randint(1, 10) for student in names}
+#
+# passed_students = {key: value for (key, value) in students_scores.items() if value >= 6}
+#
+# students_dict = {"student":['Angus', 'Luis', 'Palo', 'Yosho', 'Ken'], "score":[6, 5, 8, 8, 2]}
+#
+# student_data_frame = pandas.DataFrame(students_dict)
 # print(student_data_frame)
 
 # Looping through Data Frames
@@ -63,10 +62,10 @@ student_data_frame = pandas.DataFrame(students_dict)
 #     print(key)
 #     print(value)
 
-for (index, row) in student_data_frame.iterrows():
-    print(row.student)
-    print(row.score)
-    if row.score > 5:
-        print('Passed')
-    else:
-        print('Failed')
+# for (index, row) in student_data_frame.iterrows():
+#     print(row.student)
+#     print(row.score)
+#     if row.score > 5:
+#         print('Passed')
+#     else:
+#         print('Failed')
