@@ -134,7 +134,7 @@ search_button.grid(column=2, row=1, pady=5)
 generate_button = Button(text='Generate Password', command=pass_gen)
 generate_button.grid(column=2, row=3, pady=5)
 
-add_button = Button(text='Add', width=30, command=pass_save)
+add_button = Button(text='Add', width=37, command=pass_save)
 add_button.grid(column=1, row=4, columnspan=2, pady=5)
 
 canvas = Canvas(width=200, height=200)

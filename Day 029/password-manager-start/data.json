@@ -10,5 +10,9 @@
     "MyDiary": {
         "email": "some_mail_address@gmail.com",
         "password": "29F!hr1Z8pJ($mz"
+    },
+    "some_new_web": {
+        "email": "some_mail_address@gmail.com",
+        "password": "i%eom722T0N$owb"
     }
 }
