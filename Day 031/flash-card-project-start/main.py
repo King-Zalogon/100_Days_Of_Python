@@ -11,6 +11,7 @@ def next_card():
     global current_card, timer
     window.after_cancel(timer)
     current_card = random.choice(to_learn)
+    # print(current_card)
     italian_card()
     timer = window.after(3000, func=english_card)
     to_learn.remove(current_card)
@@ -55,7 +56,7 @@ background = canvas.create_image(400, 263, image=card_front_img)
 
 canvas.config(bg=BACKGROUND_COLOR, highlightthickness=0)
 card_title = canvas.create_text(400, 125, text="Title", font=("Ariel", 40, "italic"))
-card_word = canvas.create_text(400, 250, text="word", font=('Arial', 60, "bold"))
+card_word = canvas.create_text(400, 250, text="word", font=('Ariel', 60, "bold"))
 canvas.grid(row=0, column=0, columnspan=2)
 
 right_img = PhotoImage(file="images/right.png")
