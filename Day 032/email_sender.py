@@ -18,16 +18,23 @@ message.attach(MIMEText(body, "plain"))
 
 try:
     # Create an SMTP instance with debug output
+
+    print('starting...')
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+
+        print('started')
         server.set_debuglevel(1)
 
         # Log in to your Gmail account
+        print('logging...')
         server.login(sender_email, app_password)
+        print('logged in')
 
         # Create the email message
         message = f'Subject: {subject}\n\n{body}'
 
         # Send the email
+        print('sending message...')
         server.sendmail(sender_email, receiver_email, message)
 
     print('Email sent successfully!')
