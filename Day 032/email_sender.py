@@ -2,10 +2,15 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from random_quote import get_random_quote
+import os
+from dotenv import load_dotenv
 
-sender_email = "some mail @gmail.com"
-receiver_email = "some mail @yahoo.com"  # Replace with the recipient's email address
-app_password = "not my app pass"  # Replace with your generated app password
+load_dotenv()
+
+
+sender_email = os.getenv('FROM_EMAIL')
+receiver_email = os.getenv('TO_EMAIL')  # Replace with the recipient's email address
+app_password = os.getenv('FROM_PASS')  # Replace with your generated app password
 
 subject = "Test Email"
 body = get_random_quote()

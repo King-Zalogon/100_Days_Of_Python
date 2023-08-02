@@ -152,3 +152,4 @@ cython_debug/
 #.idea/
 Day 038/workout_tracker.env
 Day 039 - 040 - Flight Deals/env.py
+/Day 032/email_sender.env

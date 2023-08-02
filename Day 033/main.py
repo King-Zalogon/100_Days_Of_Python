@@ -55,9 +55,5 @@ sunset = int(night_data["results"]["sunset"].split('T')[1].split(':')[0])
 now = dt.datetime.now()
 current_time = now.hour
 
-
-
-
-
-
+print(is_night(sunrise, sunset, current_time))
 
