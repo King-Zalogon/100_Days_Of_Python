@@ -8,7 +8,7 @@ MY_LAT = -34.603683
 MY_LNG = -58.381557
 MY_POSS = (MY_LNG, MY_LAT)
 MY_EMAIL = "zalogonking@gmail.com"
-PASSWORD = 'not a password'
+PASSWORD = ''
 
 
 def is_night(sunrise_hour, sunset_hour, current_hour):
@@ -43,6 +43,7 @@ def conditions_check(condition_1, condition_2):
 
 
 response = requests.get(url="http://api.open-notify.org/iss-now.json")
+response.raise_for_status()
 iss_data = response.json()
 longitude = float(iss_data['iss_position']['longitude'])
 latitude = float(iss_data['iss_position']['latitude'])
@@ -85,6 +86,7 @@ while night:
                                 to_addrs=MY_EMAIL,
                                 msg=f'Subject: ISS is in the sky!\n\nCheck the sky, the International Space '
                                     f'Station should be passing through.')
+            print('Message sent')
 
 
 # BONUS: run the code every 60 seconds.
