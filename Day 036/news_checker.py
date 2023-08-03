@@ -1,8 +1,13 @@
+import os
 import requests as rq
 from fluctuation_check import yesterday_date as yd
 from fluctuation_check import two_days_ago_date as eyd
+from dotenv import load_dotenv
 
-NEWS_API = "MY API KEY"
+load_dotenv()
+
+
+NEWS_API = os.getenv('NEWS_KEY')
 NEWS_URL = "https://newsapi.org/v2/everything"
 
 

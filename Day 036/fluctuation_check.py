@@ -1,7 +1,11 @@
+import os
 import requests
 import datetime as dt
+from dotenv import load_dotenv
 
-STOCK_KEY = "MY STOCK KEY"
+load_dotenv()
+
+STOCK_KEY = os.getenv('ALPHA_KEY')
 STOCK_DAILY_URL = 'https://www.alphavantage.co/query'
 
 
@@ -25,6 +29,15 @@ def yesterday_date():
             yesterday = 28
         else:
             yesterday = 30
+    elif yesterday < 10:
+        yesterday = f'0{yesterday}'
+
+    else:
+        pass
+
+    if month < 10:
+        month = f'0{month}'
+
     else:
         pass
 
@@ -51,6 +64,16 @@ def two_days_ago_date():
             two_days_ago = 28
         else:
             two_days_ago = 30
+
+    elif two_days_ago < 10:
+        two_days_ago = f'0{two_days_ago}'
+
+    else:
+        pass
+
+    if month < 10:
+        month = f'0{month}'
+
     else:
         pass
 
@@ -77,3 +100,5 @@ def fluctuation_check(symbol: str):
     balance_percentage = round((closing_yesterday - closing_ereyesterday) / closing_yesterday * 100, 2)
 
     return symbol, balance, balance_percentage
+
+
