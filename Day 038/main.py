@@ -50,7 +50,7 @@ nutritionix_parameters = {
 nutritionix_response = requests.post(url=NUTRITIONIX_ENDPOINT, json=nutritionix_parameters, headers=nutritionix_headers)
 nutritionix_response.raise_for_status()
 nutritionix_result = nutritionix_response.json()
-print(nutritionix_result)
+# print(nutritionix_result)
 
 # result_example = {'exercises': [
 #     {'tag_id': 317, 'user_input': 'ran', 'duration_min': 24.86, 'met': 9.8, 'nf_calories': 259.87,
@@ -64,15 +64,15 @@ print(nutritionix_result)
 # ]
 # }
 
-today_workout=[]
+today_workout = []
 
 for exercise in nutritionix_result['exercises']:
-    today_workout.append({"workout": {
-                           "date": date,
-                           "time": time,
-                           "exercise": exercise["name"].capitalize(),
-                           "duration": exercise["duration_min"],
-                           "calories": exercise["nf_calories"]
+    today_workout.append({'exercises': {
+                           'date': date,
+                           'time': time,
+                           'exercise': exercise['name'].capitalize(),
+                           'duration': exercise['duration_min'],
+                           'calories': exercise['nf_calories']
             }
         }
     )
@@ -82,23 +82,28 @@ print(today_workout)
 # Sheety get and post:
 
 sheety_header = {
-    "Authorization": f'Bearer {SHEETY_TOKEN}'
-}
+    'Authorization': f'Bearer {SHEETY_TOKEN}',
+    'Content-Type': 'application/json'
+    }
+
 
 for param in today_workout:
+
     sheety_parameters = param
+    print(sheety_parameters)
+    print(type(sheety_parameters))
     sheety_post = requests.post(
-        url='https://api.sheety.co/0878ab3260b3e8ff3ff452484f0f874a/exerciseTracker/exercises',
+        url=SHEETY_ENDPOINT,
         json=sheety_parameters,
         headers=sheety_header
     )
+
     sheety_post.raise_for_status()
     sheety_result_post = sheety_post.json()
     print(sheety_result_post)
 
+
 sheety_response = requests.get(SHEETY_ENDPOINT, headers=sheety_header)
 sheety_result_get = sheety_response.json()
 
-print(sheety_result_post)
-
-
+print(sheety_result_get)
