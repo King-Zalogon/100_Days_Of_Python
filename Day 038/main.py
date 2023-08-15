@@ -11,12 +11,8 @@ WEIGHT_KG = os.getenv('WEIGHT')
 HEIGHT_CM = os.getenv('HEIGHT')
 AGE = os.getenv('AGE')
 
-# os.environ["APP_ID"] = ""
-# os.environ["API_KEY"] = ""
-# print(os.environ)
 APP_ID = os.getenv('NUTRITIONIX_ID')
 API_KEY = os.getenv('NUTRITIONIX_KEY')
-
 NUTRITIONIX_ENDPOINT = "https://trackapi.nutritionix.com/v2/natural/exercise"
 
 SHEETY_USERNAME = os.getenv('SHEETY_USER')
@@ -51,18 +47,6 @@ nutritionix_response.raise_for_status()
 nutritionix_result = nutritionix_response.json()
 # print(nutritionix_result)
 
-# result_example = {'exercises': [
-#     {'tag_id': 317, 'user_input': 'ran', 'duration_min': 24.86, 'met': 9.8, 'nf_calories': 259.87,
-#      'photo': {'highres': 'https://d2xdmhkmkbyw75.cloudfront.net/exercise/317_highres.jpg',
-#                'thumb': 'https://d2xdmhkmkbyw75.cloudfront.net/exercise/317_thumb.jpg', 'is_user_uploaded': False},
-#      'compendium_code': 12050, 'name': 'running', 'description': None, 'benefits': None},
-#     {'tag_id': 763, 'user_input': 'abs', 'duration_min': 10, 'met': 2.8, 'nf_calories': 29.87, 'photo':
-#         {'highres': 'https://d2xdmhkmkbyw75.cloudfront.net/exercise/763_highres.jpg',
-#          'thumb': 'https://d2xdmhkmkbyw75.cloudfront.net/exercise/763_thumb.jpg', 'is_user_uploaded': False},
-#      'compendium_code': 2024, 'name': 'sit-ups', 'description': None, 'benefits': None}
-# ]
-# }
-
 today_workout = []
 
 for exercise in nutritionix_result['exercises']:
@@ -76,36 +60,15 @@ for exercise in nutritionix_result['exercises']:
         }
     )
 
-# print(today_workout)
 
 # Sheety get and post:
 
 sheety_header = {"Authorization": f"Basic {BASIC_HEADER}="}
 
-headers = {"Authorization": f"Basic WmFsb2dvbktpbmc6a3VrYnVrdHU="}
-SHEET_URL = 'https://api.sheety.co/0878ab3260b3e8ff3ff452484f0f874a/exerciseTracker/exercises'
-
 for param in today_workout:
     row_data = param
-    print(row_data)
-    print(type(row_data))
-    headers = {"Authorization": f"Basic WmFsb2dvbktpbmc6a3VrYnVrdHU="}
-
-    response = requests.post(SHEET_URL, json=row_data, headers=headers)
+    response = requests.post(SHEETY_ENDPOINT, json=row_data, headers=sheety_header)
     print(response.text)
-
-    # sheety_parameters = param
-    # print(sheety_parameters)
-    # print(type(sheety_parameters))
-    # sheety_post = requests.post(
-    #     url=SHEETY_ENDPOINT,
-    #     json=sheety_parameters,
-    #     headers=sheety_header
-    # )
-    #
-    # sheety_post.raise_for_status()
-    # sheety_result_post = sheety_post.json()
-    # print(sheety_result_post)
 
 
 sheety_response = requests.get(SHEETY_ENDPOINT, headers=sheety_header)
