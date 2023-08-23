@@ -1,6 +1,14 @@
 import requests
+import os
+import spotipy
+from spotipy import SpotifyClientCredentials
 from bs4 import BeautifulSoup
-import lxml
+from dotenv import load_dotenv
+
+load_dotenv()
+
+CLIENT_ID = os.getenv('ID')
+CLIENT_SECRET = os.getenv('SECRET')
 
 # ranking_date = input('Enter the date in a "YYYY-MM-DD" format:')
 ranking_date = '1982-12-14'
@@ -16,4 +24,10 @@ soup = BeautifulSoup(ranking_webpage, 'html.parser')
 song_names_spans = soup.select("li ul li h3")
 song_names = [song.getText().strip() for song in song_names_spans]
 
-print(song_names)
+song_authors_spans = soup.select(selector='li ul li span',
+                                 class_="c-label  a-no-trucate a-font-primary-s lrv-u-font-size-14@mobile-max "
+                                        "u-line-height-normal@mobile-max u-letter-spacing-0021 lrv-u-display-block "
+                                        "a-truncate-ellipsis-2line u-max-width-330 u-max-width-230@tablet-only")
+song_authors = [author.getText().strip() for author in song_authors_spans]
+song_authors = [author for author in song_authors if len(author) > 2]
+
