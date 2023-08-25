@@ -9,13 +9,14 @@ load_dotenv()
 
 CLIENT_ID = os.getenv('ID')
 CLIENT_SECRET = os.getenv('SECRET')
-
+REDIRECT_URI = os.getenv('REDIRECT')
+USERNAME = os.getenv('USERNAME')
 
 # ranking_date = input('Enter the date in a "YYYY-MM-DD" format:')
 ranking_date = '1982-12-14'
 
 URL = 'https://www.billboard.com/charts/hot-100/'
-REDIRECT_URI = os.getenv('REDIRECT')
+
 
 response = requests.get(url=f'{URL}{ranking_date}/')
 
@@ -35,12 +36,29 @@ song_authors = [author for author in song_authors if len(author) > 2]
 
 # Now to use the Spotify API
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,
-                                               client_secret=CLIENT_SECRET,
-                                               redirect_uri=REDIRECT_URI,
-                                               scope="playlist-modify-private"))
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(
+        client_id=CLIENT_ID,
+        client_secret=CLIENT_SECRET,
+        redirect_uri=REDIRECT_URI,
+        scope="playlist-modify-private",
+        show_dialog=True,
+        cache_path="token.txt",
+        username=USERNAME,
+        )
+    )
 
-results = sp.current_user_saved_tracks()
-for idx, item in enumerate(results['items']):
-    track = item['track']
-    print(idx, track['artists'][0]['name'], " – ", track['name'])
+results = sp.current_user()
+user_id = sp.current_user()["id"]
+
+
+song_uris = []
+year = ranking_date.split("-")[0]
+for song in song_names:
+    result = sp.search(q=f"track:{song} year:{year}", type="track")
+    print(result)
+    try:
+        uri = result["tracks"]["items"][0]["uri"]
+        song_uris.append(uri)
+    except IndexError:
+        print(f"{song} doesn't exist in Spotify. Skipped.")
