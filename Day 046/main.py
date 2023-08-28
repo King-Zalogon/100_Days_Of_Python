@@ -65,7 +65,7 @@ for song in song_names:
     except IndexError:
         print(f"'{song}' doesn't exist in Spotify. Skipped.")
 
-print(song_uris)
+# print(song_uris)
 
 # Creating the playlist
 
@@ -98,9 +98,12 @@ playlist_creation = sp.user_playlist_create(
 print('Finished creating the playlist')
 
 playlist_id = playlist_creation['id']
-print(playlist_id)
-print(type(playlist_id))
+# print(playlist_id)
+# print(type(playlist_id))
+
 # Adding tracks to the playlist
 # user_playlist_add_tracks(user, playlist_id, tracks, position=None)
 
 sp.playlist_add_items(playlist_id=playlist_id, items=song_uris)
+
+print('Tracks added to the playlist')
