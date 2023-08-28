@@ -50,15 +50,57 @@ sp = spotipy.Spotify(
 
 results = sp.current_user()
 user_id = sp.current_user()["id"]
+# print(type(user_id))
 
 
 song_uris = []
 year = ranking_date.split("-")[0]
 for song in song_names:
     result = sp.search(q=f"track:{song} year:{year}", type="track")
-    print(result)
+    # print(result)
+    # print('============= NEXT SONG =============')
     try:
         uri = result["tracks"]["items"][0]["uri"]
         song_uris.append(uri)
     except IndexError:
-        print(f"{song} doesn't exist in Spotify. Skipped.")
+        print(f"'{song}' doesn't exist in Spotify. Skipped.")
+
+print(song_uris)
+
+# Creating the playlist
+
+"""
+user_playlist_create(user, name, public=True, collaborative=False, description='')
+    Creates a playlist for a user
+    Parameters:
+            user - the id of the user
+            name - the name of the playlist
+            public - is the created playlist public
+            collaborative - is the created playlist collaborative
+            description - the description of the playlist
+"""
+
+playlist_parameters = {
+    'user': user_id,
+    'name': "Top 100 - Dec 14th '82!",
+    'public': True,
+    'collaborative': False,
+    'description': 'The Billboard Top 100 sons on December 14th 1982',
+    }
+
+playlist_creation = sp.user_playlist_create(
+    user='kukbuktu',
+    name=playlist_parameters['name'],
+    public=False,
+    collaborative=False,
+    description=playlist_parameters['description']
+    )
+print('Finished creating the playlist')
+
+playlist_id = playlist_creation['id']
+print(playlist_id)
+print(type(playlist_id))
+# Adding tracks to the playlist
+# user_playlist_add_tracks(user, playlist_id, tracks, position=None)
+
+sp.playlist_add_items(playlist_id=playlist_id, items=song_uris)
