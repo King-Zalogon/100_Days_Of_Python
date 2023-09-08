@@ -1,6 +1,7 @@
 import requests
 import os
 from dotenv import load_dotenv
+from bs4 import BeautifulSoup
 
 load_dotenv()
 
@@ -14,5 +15,7 @@ my_headers = {
 }
 
 response = requests.get(url=item_url, headers=my_headers)
-
-print(response)
+# print(response)
+item_webpage = response.text
+# print(item_webpage)
+soup = BeautifulSoup(item_webpage, 'lxml')
