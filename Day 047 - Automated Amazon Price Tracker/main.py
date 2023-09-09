@@ -66,7 +66,7 @@ if item_price < TARGET_PRICE:
         # Create an SMTP instance with debug output
 
         print('starting...')
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        with smtplib.SMTP("smtp.gmail.com", port=587) as server:
 
             print('started')
             # server.set_debuglevel(1)
