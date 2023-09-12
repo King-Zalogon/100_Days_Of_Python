@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
-url = 'https://orteil.dashnet.org/cookieclicker/'
+url = 'http://orteil.dashnet.org/experiments/cookie/ '
 
 # Keep Chrome browser running
 chrome_options = webdriver.ChromeOptions()
@@ -13,19 +13,29 @@ driver = webdriver.Chrome(chrome_options)
 
 driver.get(url)
 
-time.sleep(3.0)
-dismiss = driver.find_element(By.CLASS_NAME, value='cc_btn_accept_all')
-dismiss.click()
-
-time.sleep(1.0)
-language = driver.find_element(By.XPATH, value='//*[@id="langSelect-EN"]')
-language.click()
-
 time.sleep(2.0)
 
-button = driver.find_element(By.XPATH, value='//*[@id="bigCookie"]')
-
-while True:
-    if round(time.time()) % 5 == 0:
-        time.sleep(2)
+button = driver.find_element(By.ID, value='cookie')
+for i in range(15):
     button.click()
+
+store = driver.find_elements(By.XPATH, value='/html/body/div[4]/div[5]/div/div/b/text()[2]')
+print(type(store))
+print(len(store))
+items = []
+# for item in store:
+#     name_cost_text = item.text.split('\n')
+#     print(name_cost_text)
+#     name = name_cost_text[0].split(' - ')[0]
+#     print(name)
+#     cost = name_cost_text[0].split(' - ')[1]
+#     print(int(cost))
+
+
+
+
+
+# while True:
+#     if round(time.time()) % 5 == 0:
+
+    # button.click()
