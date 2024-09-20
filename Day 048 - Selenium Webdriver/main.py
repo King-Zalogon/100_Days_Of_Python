@@ -16,6 +16,8 @@ driver = webdriver.Chrome(chrome_options)
 # item_price = float(f"{price_dollar}.{price_cents}")
 # print(item_price)
 
+
+
 # Python.org search bar
 driver.get(python_url)
 
